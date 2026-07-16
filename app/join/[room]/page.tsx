@@ -67,7 +67,7 @@ export default function JoinRoom() {
   };
 
   return <main className="player-shell">
-    <header className="player-header"><a className="brand" href="/"><span className="brand-mark"><MoonStars weight="fill" /></span><span>Moon<br />&amp; Meadow</span></a><span className="player-room">Room {room}</span></header>
+    <header className="player-header"><a className="brand" href="/"><span className="brand-mark"><MoonStars weight="fill" /></span><span>Wondreams<br />Baby Shower Games</span></a><span className="player-room">Room {room}</span></header>
     <section className="player-card">
       {phase === "join" && <form onSubmit={join} className="join-form"><div className="mobile-arch-art"><MoonStars weight="fill" /><Sparkle weight="fill" /><Sparkle weight="fill" /></div><span className="eyebrow">Welcome, little star</span><h1>Join the celebration</h1><p>Enter your name so everyone knows who&apos;s playing.</p><label>Your name<div className="input-wrap"><User /><input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Ava" maxLength={24} autoFocus /></div></label><button className="button button-primary button-large" type="submit">Join Game <CaretRight weight="bold" /></button><small><ShieldCheck weight="fill" /> No account or download needed</small></form>}
 
