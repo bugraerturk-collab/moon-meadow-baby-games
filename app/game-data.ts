@@ -1,15 +1,16 @@
 export type Choice = { label: string; correct?: boolean };
 export type Question = { prompt: string; choices?: Choice[]; answer?: string; kind?: "choice" | "text" | "prediction" };
 export type Game = { id: string; title: string; description: string; questions: Question[] };
+export type Player = { id: string; name: string; score: number };
 
 export const games: Game[] = [
   {
-    id: "mom-dad", title: "Mom or Dad?", description: "Who will be the first to…?",
+    id: "animal-match", title: "Baby Animal Match", description: "Match each little one to its animal name.",
     questions: [
-      { prompt: "Who will take more baby photos?", choices: [{ label: "Mom", correct: true }, { label: "Dad" }] },
-      { prompt: "Who will be the softest at bedtime?", choices: [{ label: "Mom" }, { label: "Dad", correct: true }] },
-      { prompt: "Who picked the baby name first?", choices: [{ label: "Mom", correct: true }, { label: "Dad" }] },
-      { prompt: "Who will change the first diaper?", choices: [{ label: "Mom" }, { label: "Dad", correct: true }] },
+      { prompt: "What is a baby goat called?", choices: [{ label: "Kid", correct: true }, { label: "Calf" }, { label: "Foal" }, { label: "Cub" }] },
+      { prompt: "What is a baby kangaroo called?", choices: [{ label: "Kit" }, { label: "Joey", correct: true }, { label: "Pup" }, { label: "Chick" }] },
+      { prompt: "What is a baby horse called?", choices: [{ label: "Fawn" }, { label: "Calf" }, { label: "Foal", correct: true }, { label: "Cub" }] },
+      { prompt: "What is a baby rabbit called?", choices: [{ label: "Kit", correct: true }, { label: "Joey" }, { label: "Kid" }, { label: "Pup" }] },
     ],
   },
   {
@@ -22,11 +23,12 @@ export const games: Game[] = [
     ],
   },
   {
-    id: "mommy", title: "Who Knows Mommy Best?", description: "The ultimate best-friend test.",
+    id: "nursery-rhymes", title: "Nursery Rhyme Quiz", description: "Complete these classic nursery rhymes.",
     questions: [
-      { prompt: "What has been Mommy's biggest pregnancy craving?", choices: [{ label: "Pickles" }, { label: "Chocolate", correct: true }, { label: "Pizza" }, { label: "Fruit" }] },
-      { prompt: "What was Mommy's first reaction to the happy news?", choices: [{ label: "Happy tears", correct: true }, { label: "Speechless" }, { label: "Laughter" }, { label: "Called Grandma" }] },
-      { prompt: "Which lullaby will Mommy sing first?", choices: [{ label: "Twinkle Twinkle", correct: true }, { label: "You Are My Sunshine" }, { label: "Hush Little Baby" }, { label: "A family favorite" }] },
+      { prompt: "Twinkle, twinkle, little star, how I wonder what you…", choices: [{ label: "see" }, { label: "are", correct: true }, { label: "do" }, { label: "say" }] },
+      { prompt: "Humpty Dumpty sat on a…", choices: [{ label: "chair" }, { label: "wall", correct: true }, { label: "hill" }, { label: "ball" }] },
+      { prompt: "The itsy bitsy spider climbed up the water…", choices: [{ label: "spout", correct: true }, { label: "pipe" }, { label: "wall" }, { label: "fall" }] },
+      { prompt: "Row, row, row your boat, gently down the…", choices: [{ label: "sea" }, { label: "river" }, { label: "stream", correct: true }, { label: "lake" }] },
     ],
   },
   {
@@ -53,16 +55,4 @@ export const games: Game[] = [
       { prompt: "Leave one sweet wish for the baby.", kind: "prediction", answer: "" },
     ],
   },
-];
-
-export const demoPlayers = [
-  { id: "1", name: "Ava", score: 320 }, { id: "2", name: "Noah", score: 290 },
-  { id: "3", name: "Lily", score: 260 }, { id: "4", name: "Ethan", score: 240 },
-  { id: "5", name: "Grace", score: 210 }, { id: "6", name: "Mia", score: 190 },
-  { id: "7", name: "Olivia", score: 160 }, { id: "8", name: "James", score: 140 },
-  { id: "9", name: "Amelia", score: 130 }, { id: "10", name: "Henry", score: 120 },
-  { id: "11", name: "Sofia", score: 110 }, { id: "12", name: "Leo", score: 100 },
-  { id: "13", name: "Ella", score: 90 }, { id: "14", name: "Jack", score: 80 },
-  { id: "15", name: "Chloe", score: 70 }, { id: "16", name: "Lucas", score: 60 },
-  { id: "17", name: "Ivy", score: 50 }, { id: "18", name: "Finn", score: 40 },
 ];
