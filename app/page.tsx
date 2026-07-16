@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { Baby, Crown, GameController, MoonStars, QrCode, Sparkle } from "@phosphor-icons/react";
 
 const GAMES = [
-  ["Mom or Dad?", "Guess who is most likely to do it."],
+  ["Baby Animal Match", "Match each little one to its animal name."],
   ["Baby Trivia", "Sweet facts, surprising answers."],
-  ["Who Knows Mommy Best?", "Put your mommy knowledge to the test."],
+  ["Nursery Rhyme Quiz", "Complete the classic nursery rhymes."],
   ["Baby Word Scramble", "Unscramble adorable baby words."],
   ["Emoji Baby Phrases", "Decode each tiny picture puzzle."],
   ["Baby Predictions", "Share your wishes for the little one."],
@@ -48,7 +48,7 @@ export default function Home() {
             <button className="button button-primary button-large" onClick={createRoom} disabled={!mounted}>
               <Crown weight="fill" /> Create a Game Room
             </button>
-            <a className="text-link" href="/join/731406"><QrCode /> Try the guest demo</a>
+            <span className="text-link"><QrCode /> Guests join with the room QR</span>
           </div>
           <div className="trust-row">
             <span>30+ players</span><span>6 games included</span><span>Works on any phone</span>
