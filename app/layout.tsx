@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Starter Project",
-  description: "A clean starting point for building your site.",
+  title: "Wondreams Baby Shower Games",
+  description: "Live, QR-powered interactive baby shower games for up to 30 guests.",
   other: {
     "codex-preview": "development",
   },
