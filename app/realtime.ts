@@ -1,12 +1,6 @@
-import { createClient } from "@supabase/supabase-js";
+import { supabase } from "./supabase";
 
 export type RoomEvent = { type: string; room: string; payload?: unknown };
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const supabase = supabaseUrl && supabaseAnonKey
-  ? createClient(supabaseUrl, supabaseAnonKey, { auth: { persistSession: false } })
-  : null;
 
 export function roomChannel(room: string, onEvent: (event: RoomEvent) => void) {
   if (typeof window === "undefined") return { send: () => {}, close: () => {} };
