@@ -21,6 +21,7 @@ export default function HostRoom() {
   const [joinUrl, setJoinUrl] = useState(`/join/${room}`);
   const channel = useRef<ReturnType<typeof roomChannel> | null>(null);
   const scoredAnswers = useRef(new Set<string>());
+  const playersRef = useRef<Player[]>([]);
   const game = games[gameIndex];
   const question = game.questions[questionIndex];
   const sorted = useMemo(() => [...players].sort((a, b) => b.score - a.score), [players]);
@@ -49,10 +50,12 @@ export default function HostRoom() {
           setPlayers((current) => current.map((player) => player.name === response.player_name ? { ...player, score: player.score + 100 } : player));
         }
       }
+      if (event.type === "scoreboard-request") channel.current?.send("scoreboard", { players: playersRef.current });
     });
     return () => channel.current?.close();
   }, [room]);
   useEffect(() => { channel.current?.send("state", { phase, gameIndex, questionIndex }); }, [phase, gameIndex, questionIndex]);
+  useEffect(() => { playersRef.current = players; channel.current?.send("scoreboard", { players }); }, [players]);
 
   const startGame = (index = gameIndex) => { setGameIndex(index); setQuestionIndex(0); setPhase("question"); };
   const next = () => questionIndex < game.questions.length - 1 ? (setQuestionIndex((q) => q + 1), setPhase("question")) : setPhase("leaderboard");
