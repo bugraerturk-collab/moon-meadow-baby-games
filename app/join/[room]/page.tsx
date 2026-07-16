@@ -52,7 +52,10 @@ export default function JoinRoom() {
 
   const submit = async () => {
     if (!selected && !textAnswer.trim()) return;
-    const correct = question.choices?.find((choice) => choice.label === selected)?.correct || (question.answer && textAnswer.trim().toUpperCase() === question.answer);
+    const correctChoice = question.choices?.find((choice) => choice.correct)?.label;
+    const correct = correctChoice
+      ? selected === correctChoice
+      : Boolean(question.answer && textAnswer.trim().toUpperCase() === question.answer.trim().toUpperCase());
     const points = correct ? 100 : 0;
     if (points) setScore((s) => s + points);
     const response: SavedResponse = { room_code: room, player_name: name.trim(), game_id: game.id, question_index: questionIndex, question_prompt: question.prompt, answer: selected || textAnswer.trim(), is_correct: question.kind === "prediction" ? null : Boolean(correct), points };
