@@ -20,6 +20,7 @@ export default function HostRoom() {
   const [fullQr, setFullQr] = useState(false);
   const [joinUrl, setJoinUrl] = useState(`/join/${room}`);
   const channel = useRef<ReturnType<typeof roomChannel> | null>(null);
+  const scoredAnswers = useRef(new Set<string>());
   const game = games[gameIndex];
   const question = game.questions[questionIndex];
   const sorted = useMemo(() => [...players].sort((a, b) => b.score - a.score), [players]);
@@ -33,8 +34,18 @@ export default function HostRoom() {
       }
       if (event.type === "answer") {
         const response = event.payload as SavedResponse;
-        setResponses((current) => [...current.filter((item) => !(item.player_name === response.player_name && item.game_id === response.game_id && item.question_index === response.question_index)), response]);
-        if (response.points) setPlayers((current) => current.map((player) => player.name === response.player_name ? { ...player, score: player.score + response.points } : player));
+        const responseQuestion = games.find((item) => item.id === response.game_id)?.questions[response.question_index];
+        const correctChoice = responseQuestion?.choices?.find((choice) => choice.correct)?.label;
+        const isCorrect = correctChoice
+          ? response.answer === correctChoice
+          : Boolean(responseQuestion?.answer && response.answer.trim().toUpperCase() === responseQuestion.answer.trim().toUpperCase());
+        const verifiedResponse = { ...response, is_correct: responseQuestion?.kind === "prediction" ? null : isCorrect, points: isCorrect ? 100 : 0 };
+        const scoreKey = `${response.player_name}:${response.game_id}:${response.question_index}`;
+        setResponses((current) => [...current.filter((item) => !(item.player_name === response.player_name && item.game_id === response.game_id && item.question_index === response.question_index)), verifiedResponse]);
+        if (isCorrect && !scoredAnswers.current.has(scoreKey)) {
+          scoredAnswers.current.add(scoreKey);
+          setPlayers((current) => current.map((player) => player.name === response.player_name ? { ...player, score: player.score + 100 } : player));
+        }
       }
     });
     return () => channel.current?.close();
@@ -45,7 +56,7 @@ export default function HostRoom() {
   const next = () => questionIndex < game.questions.length - 1 ? (setQuestionIndex((q) => q + 1), setResponses([]), setPhase("question")) : setPhase("leaderboard");
   const nextGame = () => gameIndex < games.length - 1 ? startGame(gameIndex + 1) : setPhase("final");
   const reset = async () => {
-    setPhase("lobby"); setGameIndex(0); setQuestionIndex(0); setResponses([]); setPlayers((current) => current.map((p) => ({ ...p, score: 0 })));
+    setPhase("lobby"); setGameIndex(0); setQuestionIndex(0); setResponses([]); scoredAnswers.current.clear(); setPlayers((current) => current.map((p) => ({ ...p, score: 0 })));
   };
   const removePlayer = (player: Player) => { setPlayers((current) => current.filter((p) => p.id !== player.id)); channel.current?.send("removed", { name: player.name }); };
 
