@@ -91,6 +91,7 @@ a { color: inherit; text-decoration: none; }
 .guest-panel-head strong { display: inline-flex; align-items: center; gap: 9px; }
 .guest-panel-head button, .guest button { border: 0; background: none; color: var(--rose-light); display: inline-flex; align-items: center; gap: 4px; }
 .guest-list { display: flex; gap: 18px; overflow: hidden; }
+.empty-guests { color: var(--muted); margin: 12px 0; }
 .guest { min-width: 62px; text-align: center; position: relative; font-size: 12px; }
 .guest-avatar { width: 50px; height: 50px; border-radius: 50%; display: grid; place-items: center; margin: 0 auto 7px; font-family: Georgia, serif; font-size: 21px; }
 .tone-0 { background: #b87470; }.tone-1 { background: #71866f; }.tone-2 { background: #b9a68b; }.tone-3 { background: #526e64; }
@@ -111,6 +112,7 @@ a { color: inherit; text-decoration: none; }
 .host-choices > div span { width: 40px; height: 40px; border-radius: 50%; background: var(--cream); color: var(--forest); display: grid; place-items: center; font-weight: 800; }
 .open-answer { border: 1px solid rgba(239,212,157,.25); padding: 34px; border-radius: 18px; display: flex; align-items: center; gap: 18px; color: var(--gold-light); }.open-answer svg { width: 35px; height: 35px; }.open-answer span { color: var(--muted); margin-left: auto; }
 .response-progress { margin-top: 35px; color: var(--muted); }
+.live-answer-list { display: grid; gap: 10px; }.written-answer, .revealed-responses > div { display: grid; grid-template-columns: minmax(100px, 180px) 1fr; gap: 16px; padding: 14px 18px; border: 1px solid rgba(239,212,157,.2); border-radius: 13px; background: rgba(255,255,255,.035); }.written-answer strong, .revealed-responses strong { color: var(--gold-light); }.written-answer span, .revealed-responses span { color: #fffaf0; overflow-wrap: anywhere; }.revealed-responses { width: min(760px, 100%); display: grid; gap: 10px; margin: 24px auto; text-align: left; }
 .progress-track { height: 8px; border-radius: 999px; background: rgba(255,255,255,.09); overflow: hidden; margin-top: 12px; }
 .progress-track i { display: block; height: 100%; background: var(--rose); border-radius: inherit; transition: width .3s ease; }
 .host-control-panel { border: 1px solid rgba(239,212,157,.24); background: rgba(255,255,255,.04); border-radius: 22px; padding: 28px; display: flex; flex-direction: column; align-items: stretch; gap: 22px; }
