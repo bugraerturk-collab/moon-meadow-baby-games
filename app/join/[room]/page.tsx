@@ -36,6 +36,7 @@ export default function JoinRoom() {
           if (state.phase === "lobby") setPhase("waiting");
         }
       }
+      if (event.type === "removed" && (event.payload as { name?: string })?.name === name) setPhase("join");
     });
     return () => channel.current?.close();
   }, [room, phase]);
@@ -44,7 +45,7 @@ export default function JoinRoom() {
     e.preventDefault();
     const cleanName = name.trim(); if (!cleanName) return;
     localStorage.setItem(`mm-player-${room}`, cleanName);
-    if (supabase) await supabase.from("room_players").upsert({ room_code: room, name: cleanName, score: 0 }, { onConflict: "room_code,name" });
+    if (supabase) await supabase.from("room_players").insert({ room_code: room, name: cleanName, score: 0 });
     channel.current?.send("join", { name: cleanName });
     setPhase("waiting");
   };
@@ -56,8 +57,7 @@ export default function JoinRoom() {
     if (points) setScore((s) => s + points);
     const response: SavedResponse = { room_code: room, player_name: name.trim(), game_id: game.id, question_index: questionIndex, question_prompt: question.prompt, answer: selected || textAnswer.trim(), is_correct: question.kind === "prediction" ? null : Boolean(correct), points };
     if (supabase) {
-      await supabase.from("game_responses").upsert(response, { onConflict: "room_code,player_name,game_id,question_index" });
-      if (points) await supabase.from("room_players").update({ score: score + points }).eq("room_code", room).eq("name", name.trim());
+      await supabase.from("game_responses").insert(response);
     }
     channel.current?.send("answer", response);
     setPhase("saved");
