@@ -6,7 +6,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { ArrowsOut, CaretRight, Crown, GameController, MoonStars, Play, QrCode, SignOut, Sparkle, Trash, UsersThree, X } from "@phosphor-icons/react";
 import { games, Player } from "../../game-data";
 import { roomChannel } from "../../realtime";
-import { SavedResponse, supabase } from "../../supabase";
+import { SavedResponse } from "../../supabase";
 
 type Phase = "lobby" | "question" | "answer" | "leaderboard" | "final";
 
@@ -26,10 +26,6 @@ export default function HostRoom() {
 
   useEffect(() => setJoinUrl(`${window.location.origin}/join/${room}`), [room]);
   useEffect(() => {
-    if (!supabase) return;
-    void supabase.from("room_players").select("id,name,score").eq("room_code", room).then(({ data }) => data && setPlayers(data as Player[]));
-  }, [room]);
-  useEffect(() => {
     channel.current = roomChannel(room, (event) => {
       if (event.type === "join") {
         const name = String((event.payload as { name?: string })?.name || "Guest");
@@ -44,19 +40,14 @@ export default function HostRoom() {
     return () => channel.current?.close();
   }, [room]);
   useEffect(() => { channel.current?.send("state", { phase, gameIndex, questionIndex }); }, [phase, gameIndex, questionIndex]);
-  useEffect(() => {
-    if (!supabase) return;
-    void supabase.from("game_responses").select("*").eq("room_code", room).eq("game_id", game.id).eq("question_index", questionIndex).then(({ data }) => setResponses((data || []) as SavedResponse[]));
-  }, [room, game.id, questionIndex]);
 
   const startGame = (index = gameIndex) => { setGameIndex(index); setQuestionIndex(0); setResponses([]); setPhase("question"); };
   const next = () => questionIndex < game.questions.length - 1 ? (setQuestionIndex((q) => q + 1), setResponses([]), setPhase("question")) : setPhase("leaderboard");
   const nextGame = () => gameIndex < games.length - 1 ? startGame(gameIndex + 1) : setPhase("final");
   const reset = async () => {
     setPhase("lobby"); setGameIndex(0); setQuestionIndex(0); setResponses([]); setPlayers((current) => current.map((p) => ({ ...p, score: 0 })));
-    if (supabase) { await supabase.from("game_responses").delete().eq("room_code", room); await supabase.from("room_players").update({ score: 0 }).eq("room_code", room); }
   };
-  const removePlayer = async (player: Player) => { setPlayers((current) => current.filter((p) => p.id !== player.id)); if (supabase) await supabase.from("room_players").delete().eq("id", player.id); };
+  const removePlayer = (player: Player) => { setPlayers((current) => current.filter((p) => p.id !== player.id)); channel.current?.send("removed", { name: player.name }); };
 
   return <main className="host-shell">
     <header className="host-header"><a className="brand" href="/"><span className="brand-mark"><MoonStars weight="fill" /></span><span>Moon<br />&amp; Meadow</span></a><div className="live-pill"><i /> {phase === "lobby" ? "Live lobby" : "Game in progress"}</div><div className="host-steps"><span className={phase === "lobby" ? "active" : ""}>Lobby</span><b>•</b><span className={["question", "answer"].includes(phase) ? "active" : ""}>Game</span><b>•</b><span className={["leaderboard", "final"].includes(phase) ? "active" : ""}>Results</span></div></header>
