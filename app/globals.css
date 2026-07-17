@@ -37,6 +37,13 @@ a { color: inherit; text-decoration: none; }
 .button-outline { color: var(--ivory); background: rgba(7,31,26,.45); border: 1px solid var(--gold); }
 .text-link { display: inline-flex; align-items: center; gap: 8px; border: 0; background: transparent; color: var(--gold-light); padding: 10px 0; }
 
+/* Purchaser access */
+.access-shell { min-height: 100vh; padding: 28px; display: grid; place-items: center; overflow: hidden; position: relative; background: radial-gradient(circle at 50% 30%, rgba(212,170,92,.13), transparent 35%), var(--forest); }
+.access-card { width: min(100%, 510px); position: relative; z-index: 1; display: grid; gap: 20px; padding: 42px; border: 1px solid rgba(239,212,157,.28); border-radius: 30px; background: rgba(9,35,30,.92); box-shadow: 0 30px 80px rgba(0,0,0,.28); }
+.access-card .brand { margin-bottom: 8px; }.access-icon { width: 78px; height: 78px; display: grid; place-items: center; border-radius: 50%; color: var(--gold-light); background: rgba(212,170,92,.12); border: 1px solid rgba(239,212,157,.24); }.access-icon svg { width: 42px; height: 42px; }
+.access-card h1 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(38px, 7vw, 54px); line-height: 1; font-weight: 400; }.access-card > p { margin: 0; color: #c8d2cc; line-height: 1.65; }.access-card label { display: grid; gap: 9px; color: var(--gold-light); font-size: 13px; font-weight: 700; }.access-card .input-wrap { background: var(--ivory); }.access-card .input-wrap input { text-transform: uppercase; letter-spacing: .08em; }.access-card small { display: flex; align-items: center; justify-content: center; gap: 7px; color: var(--muted); }.access-error { padding: 12px 14px; border-radius: 12px; color: #ffd8d5; background: rgba(185,111,108,.18); border: 1px solid rgba(216,155,148,.35); font-size: 13px; }
+@media (max-width: 600px) { .access-shell { padding: 14px; }.access-card { padding: 28px 22px; border-radius: 24px; gap: 17px; }.access-card .brand { font-size: 16px; }.access-icon { width: 64px; height: 64px; }.access-icon svg { width: 34px; height: 34px; } }
+
 /* Welcome */
 .welcome-shell { min-height: 100vh; overflow: hidden; background: radial-gradient(circle at 74% 35%, rgba(212,170,92,.09), transparent 28%), var(--forest); position: relative; }
 .ambient-stars { position: absolute; inset: 0; pointer-events: none; color: var(--gold); opacity: .55; }
